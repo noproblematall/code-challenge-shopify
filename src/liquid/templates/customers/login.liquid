@@ -1,0 +1,56 @@
+<account-login>
+  {%- form 'customer_login' -%}
+    {{ form.errors | default_errors }}
+
+    <div class="login--input input input--text {% if form.errors contains 'email' %}error{% endif %}">
+      <input type="email"
+            name="customer[email]"
+            id="CustomerEmail"
+            spellcheck="false"
+            autocomplete="off"
+            autocapitalize="off"
+            autofocus>
+      <label for="CustomerEmail">Email Address</label>
+    </div>
+    {%- if form.password_needed -%}
+      <div class="login--input input input--text {% if form.errors contains 'password' %}error{% endif %}">
+        <input type="password"
+              name="customer[password]"
+              id="CustomerPassword">
+        <label for="CustomerPassword" class="label-hidden">Password</label>
+      </div>
+      <a href="#" class="u-link login--input-link" @click.prevent="$refs.forgotPasswordModal.open()">Forgot Password?</a>
+    {%- endif -%}
+
+    <input type="submit" class="login--input-submit button button--primary" value="Log In">
+  {%- endform -%}
+</account-login>
+
+{%- form 'recover_customer_password' -%}
+  {%- if form.posted_successfully? -%}
+    {%- assign success = true -%}
+  {%- endif -%}
+  <account-forgot-password ref="forgotPasswordModal" {% if success or form.errors %}auto-open{% endif %}>
+    {%- if success -%}
+      <h2 class="login--forgotpw-header">Link sent</h2>
+      <p class="login--forgotpw-text">We’ve sent a link to your email that you can use to reset your password.</p>
+    {%- else -%}
+      {{ form.errors | default_errors }}
+      
+      <h2 class="login--forgotpw-header">Retrieve password</h2>
+      <p class="login--forgotpw-text">Forget your password? No problem. Just enter your email address and we’ll send you a link to reset it.</p>
+
+      <div class="input input--text">
+        <input type="email"
+              name="email"
+              id="RecoverEmail"
+              spellcheck="false"
+              autocomplete="off"
+              autocapitalize="off">
+        <label for="RecoverEmail">Email Address</label>
+      </div>
+
+      <input type="submit" class="login--forgotpw-submit button button--primary" value="Send Email">
+    {%- endif -%}
+  </account-forgot-password>
+{%- endform -%}

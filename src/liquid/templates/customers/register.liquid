@@ -1,0 +1,42 @@
+<account-register>
+  {%- form 'create_customer' -%}
+    {{ form.errors | default_errors }}
+
+    <div class="login--input input input--text">
+      <input type="text"
+        name="customer[first_name]"
+        id="FirstName"
+        autofocus
+        {% if form.first_name %}value="{{ form.first_name }}"{% endif %}>
+      <label for="FirstName">First Name</label>
+    </div>
+
+    <div class="login--input input input--text">
+      <input type="text"
+        name="customer[last_name]"
+        id="LastName"
+        {% if form.last_name %}value="{{ form.last_name }}"{% endif %}>
+      <label for="LastName" class="label-hidden">Last Name</label>
+    </div>
+
+    <div class="login--input input input--text {% if form.errors contains 'email' %}error{% endif %}">
+      <input type="email"
+        name="customer[email]"
+        id="Email"
+        value="{% if form.email %}{{ form.email }}{% endif %}"
+        spellcheck="false"
+        autocomplete="off"
+        autocapitalize="off">
+      <label for="Email" class="label-hidden">Email Address</label>
+    </div>
+
+    <div class="login--input input input--text {% if form.errors contains 'password' %}error{% endif %}">
+      <input type="password"
+        name="customer[password]"
+        id="CreatePassword">
+      <label for="CreatePassword" class="label-hidden">Password</label>
+    </div>
+
+    <input type="submit" value="Sign Up" class="login--input-submit button button--primary">
+  {%- endform -%}
+</account-register>

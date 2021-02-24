@@ -1,0 +1,82 @@
+<div>
+  {%- capture section_data -%}
+    {
+      "title": "{{ section.settings.section_title | escape }}",
+      "description": "{{ section.settings.section_description | escape }}",
+      "color": "{{ section.settings.section_color | escape }}",
+      "align": "{{ section.settings.text_alignment | escape }}",
+      "CTA_text": "{{ section.settings.section_cta_text | escape }}",
+      "CTA_url": "{{ section.settings.section_cta_url | escape }}",
+      "image": "{{ section.settings.desktop_image | img_url: '610x377' }}",
+      "mobileImage": "{{ section.settings.mobile_image | img_url: '314x176' }}",
+    }
+  {%- endcapture -%}
+
+  <hero-component :sectiondata="{{ section_data | escape }}"></hero-component>
+</div>
+
+
+{% schema %}
+
+{
+  "name": "Custom Hero",
+  "class": "hero-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    }, {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        }, {
+          "value": "center",
+          "label": "Center"
+        }, {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    }, {
+      "type": "image_picker",
+      "id": "desktop_image",
+      "label": "Image"
+    }, {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile Image"
+    }, {
+      "type": "text",
+      "id": "section_title",
+      "label": "Title"
+    }, {
+      "type": "color",
+      "id": "section_color",
+      "label": "Color Picker"
+    }, {
+      "type": "textarea",
+      "id": "section_description",
+      "label": "Copy"
+    }, {
+      "type": "text",
+      "id": "section_cta_text",
+      "label": "CTA Text"
+    }, {
+      "type": "url",
+      "id": "section_cta_url",
+      "label": "CTA Url"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Hero",
+      "category": "Text"
+    }
+  ]
+}
+
+{% endschema %}

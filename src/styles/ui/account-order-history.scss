@@ -1,0 +1,44 @@
+
+.orders-list {
+  text-align: left;
+  border-collapse: collapse;
+  margin-top: $grid-gutter * 2;
+
+  @include desktop-up {
+    margin-top: 0;
+  }
+}
+
+.orders-list__heading {
+  padding: 0 0 13px 14px;
+  font-size: rem(12);
+  font-weight: bold;
+  border-bottom: 1px solid $border--light;
+
+  @include tablet-up {
+    padding: 19px 0 12px 36px;
+  }
+}
+
+.orders-list__cell {
+  padding: 32px 0 32px 14px;
+  font-size: rem(12);
+  border-bottom: 1px solid $border--light;
+
+  @include tablet-up {
+    padding: 18px 0 16px 36px;
+    font-size: rem(15);
+  }
+}
+
+.orders-list__cell--order-number {
+  font-weight: bold;
+
+  @include tablet-up {
+    font-size: rem(16);
+  }
+}
+
+.orders-list__cell--action {
+  font-size: rem(20);
+}

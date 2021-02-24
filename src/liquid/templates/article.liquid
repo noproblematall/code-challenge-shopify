@@ -1,0 +1,189 @@
+{%- comment -%}
+  In order to avoid showing "success" message when we post comments
+  with invalid format (eg. blank fields), we added logic to make sure it doesn't show.
+
+  Comment help page:
+  http://docs.shopify.com/themes/liquid-variables/comment
+{%- endcomment -%}
+
+{%- assign new_comment = false -%}
+{%- assign number_of_comments = article.comments_count -%}
+
+{%- if comment and comment.created_at -%}
+  {%- assign new_comment = true -%}
+  {%- assign new_comment_id = comment.id -%}
+{%- endif -%}
+
+{%- if new_comment -%}
+  {%- comment -%}
+    When you refresh the page with submitted comment, the comment is duplicated
+    so we added a flag to avoid this situation.
+  {%- endcomment -%}
+  {%- assign duplicate_comment = false -%}
+  {%- for comment in article.comments -%}
+    {%- if comment.id == new_comment_id -%}
+      {%- assign duplicate_comment = true -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+  {%- unless duplicate_comment -%}
+    {%- assign number_of_comments = article.comments_count | plus: 1 -%}
+  {%- endunless -%}
+{%- endif -%}
+
+{%- if article.image -%}
+  <div class="article__hero container container--wide">
+    <img class="article__image" 
+      src="{{ article.image | img_url: '1400x' }}" 
+      srcset="{{ article.image | img_url: '768x' }} 768w,
+              {{ article.image | img_url: '1024x' }} 1024w,
+              {{ article.image | img_url: '1400x' }} 1400w"
+      alt="{{ article.image.alt }}" />
+  </div>
+{%- endif -%}
+
+<article role="article" class="article u-bg-main container container--tiny">
+  <h1 class="article__title u-text-center">{{ article.title }}</h1>
+  <product-tile-badge text="{{ article.published_at | date: '%b %e' }}"></product-tile-badge>
+
+  <div class="article__content">{{ article.content }}</div>
+
+  {%- if settings.social_sharing_blog -%}
+    {%- include 'social-sharing', scope: "article", share_title: article.title, share_permalink: article.url, share_image: article.image -%}
+  {%- endif -%}
+
+  {%- if article.tags.size > 0 -%}
+    <ul class="article__tags u-list-inline">
+      {%- for tag in article.tags -%}
+        <li>
+          <a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}{% unless forloop.last %} /&nbsp;{% endunless %}</a>
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+</article>
+
+{%- if blog.next_article or blog.previous_article -%}
+  <div class="article__paginate">
+    <icon-link
+      href="{{ blog.previous_article }}" 
+      label="Previous Article" 
+      icon="arrow-left"
+      size="18px"
+      {% unless blog.previous_article %}:disabled="true"{% endunless %}>
+    </icon-link>
+    <icon-link
+      href="{{ blog.next_article }}" 
+      label="Next Article" 
+      icon="arrow-right"
+      size="18px"
+      {% unless blog.next_article %}:disabled="true"{% endunless %}>
+    </icon-link>
+  </div>
+{%- endif -%}
+
+{%- if blog.comments_enabled? -%}
+  <section class="article__comments-section">
+    <div class="container container--tiny">
+      <h3>{{ 'blogs.comments.with_count' | t: count: number_of_comments }}</h3>
+      
+      {%- paginate article.comments by 5 -%}
+        <div id="comments" class="article__comments">
+          {%- if comment and comment.status and comment.id != blank and paginate.current_page == 1 -%}
+            <p class="article__form-success">
+              {%- if blog.moderated? and comment.status != 'published' -%}
+                {{ 'blogs.comments.success_moderated' | t }}
+              {%- else -%}
+                {{ 'blogs.comments.success' | t }}
+              {%- endif -%}
+            </p>
+          {%- endif -%}
+
+          {%- if number_of_comments > 0 -%}
+            <ul>
+              {% comment %}
+                Display comment from URL parameters if it is waiting moderation
+                We added "comment.id" check to make sure we don't display markup if there are form errors
+              {% endcomment %}
+              {%- if comment and comment.status != 'published' and comment.id != blank -%}
+                <li id="{{ comment.id }}" class="article__comment">
+                  <div class="rte article__comment__content">{{ comment.content }}</div>
+                  <p class="article__comment__footer">
+                    <strong>{{ comment.author }}</strong>
+                    {% if comment.created_at != blank %}
+                    <span class="article__comment__date">{{ comment.created_at | time_tag: format: 'month_day_year' }}</span>
+                    {% endif %}
+                  </p>
+                </li>
+              {%- endif -%}
+          
+              {%- for comment in article.comments -%}
+                <li id="{{ comment.id }}" class="article__comment">
+                  <div class="rte article__comment__content">{{ comment.content }}</div>
+                  <p class="article__comment__footer">
+                    <strong class="article__comment__author">{{ comment.author }}</strong>
+                    {% if comment.created_at != blank %}
+                    <span class="article__comment__date">{{ comment.created_at | time_tag: format: 'month_day_year' }}</span>
+                    {% endif %}
+                  </p>
+                </li>
+              {%- endfor -%}
+            </ul>
+
+            {%- if paginate.pages > 1 -%}
+              {%- include 'pagination' -%}
+            {%- endif -%}
+          {%- endif -%}
+        </div>
+      {%- endpaginate -%}
+      
+      {%- form 'new_comment', article -%}
+        <h3>{{ 'blogs.comments.title' | t }}</h3>
+        
+        {{ form.errors | default_errors }}
+        
+        <div class="input input--text">
+          <label for="CommentAuthor" class="label-hidden">{{ 'blogs.comments.name' | t }}</label>
+          <input type="text" 
+            name="comment[author]" 
+            id="CommentAuthor"
+            class="{% if form.errors contains 'author' %}input-error{% endif %}" 
+            placeholder="{{ 'blogs.comments.name' | t }}"
+            value="{{ form.author }}" 
+            autocapitalize="words" />
+        </div>
+        
+        <div class="input input--text">
+          <label for="CommentEmail" class="label-hidden">{{ 'blogs.comments.email' | t }}</label>
+          <input type="email" 
+            name="comment[email]" 
+            id="CommentEmail"
+            class="{% if form.errors contains 'email' %}input-error{% endif %}" 
+            placeholder="{{ 'blogs.comments.email' | t }}"
+            value="{{ form.email }}" 
+            spellcheck="false" 
+            autocomplete="off" 
+            autocapitalize="off" />
+        </div>
+        
+        <div class="input input--text">
+          <label for="CommentBody" class="label-hidden">{{ 'blogs.comments.message' | t }}</label>
+          <textarea 
+            name="comment[body]" 
+            id="CommentBody" 
+            class="{% if form.errors contains 'body' %}input-error{% endif %}"
+            placeholder="{{ 'blogs.comments.message' | t }}">
+            {{- form.body -}}
+          </textarea>
+        </div>
+        
+        {%- if blog.moderated? -%}
+          <p>{{ 'blogs.comments.moderated' | t }}</p>
+        {%- endif -%}
+        
+        <submit-button label="{{ 'blogs.comments.post' | t }}"></submit-button>
+      {%- endform -%}
+    </div>
+  </section>
+{%- endif -%}

@@ -1,0 +1,75 @@
+
+<div class="container blog-wrapper">
+  {%- paginate blog.articles by 4 -%}
+
+    {% comment %} Blog Title {% endcomment %}
+    <h1 class="u-text-center blog__title">
+      {%- if current_tags -%}
+        {{ blog.title | link_to: blog.url }}
+      {%- else -%}
+        {{ blog.title }}
+      {%- endif -%}
+    </h1>
+
+    {% comment %} Blog Tags {% endcomment %}
+    {%- if blog.all_tags.size > 0 -%}
+      <ul class="blog-categories u-list-inline">
+        {%- for tag in blog.all_tags -%}
+          {%- if current_tags contains tag -%}
+            <li class="blog-categories__item"><span>{{ tag }}</span></li>
+          {%- else -%}
+            <li class="blog-categories__item">{{ tag | link_to_tag: tag }}</li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    {% comment %} Article Grid {% endcomment %}
+    <div class="row small-up-1 medium-up-2">
+      {%- for article in blog.articles -%}
+        <div class="column">
+          <div class="article-preview">
+            {%- if article.image -%}
+              <a class="article-preview__image-wrapper" href="{{ article.url }}">
+                <product-tile-badge text="{{ article.published_at | date: '%b %e' }}"></product-tile-badge>
+                <img class="article-preview__image" src="{{ article.image | img_url: '1024x1024' }}" alt="{{ article.img.alt }}" />
+              </a>
+            {%- endif -%}
+
+            <div class="article-preview__content">
+              <h3 class="article-preview__title"><a class="u-no-link" href="{{ article.url }}">{{ article.title }}</a></h3>
+              <p class="article-preview__subtitle">{{ article.published_at | date: '%b %e' }}</p>
+
+              {%- if article.tags.size > 0 -%}
+                <ul class="u-list-inline article-preview__tags">
+                  {%- for tag in article.tags -%}
+                    <li class="article-preview__tags__item">
+                      <a href="{{ blog.url }}/tagged/{{ tag | handle }}" class="u-accent-link">{{ tag }}</a>
+                      {%- unless forloop.last -%},{%- endunless -%}
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
+
+              <div class="article-preview__excerpt">
+                {%- if article.excerpt.size > 0 -%}
+                  {{ article.excerpt }}
+                {%- else -%}
+                  <p>{{ article.content | strip_html | truncatewords: 50 }}</p>
+                {%- endif -%}
+              </div>
+
+              <a href="{{ article.url }}" class="article-preview__read-more u-accent-link">{{ 'blogs.article.read_more' | t }}</a>
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {% comment %} Blog Pagination {% endcomment %}
+    {%- if paginate.pages > 1 -%}
+      {%- include 'pagination' -%}
+    {%- endif -%}
+
+  {%- endpaginate -%}
+</div>

@@ -1,0 +1,40 @@
+
+<!doctype html>
+<html class="no-js supports-no-cookies" lang="{{ shop.locale }}">
+  <head>
+    {%- include 'template-head' -%}
+    {{ content_for_header }}
+  </head>
+
+  <body class="template-{{ template.name | handle }} layout--default">
+    {%- include 'icon-store' -%}
+
+    <div id="app" v-cloak>
+      {%- section 'header' -%}
+
+      <main role="main" id="MainContent">
+        {{ content_for_layout }}
+      </main>
+
+      {%- section 'footer' -%}
+
+      <toast></toast>
+      <video-modal></video-modal>
+      <sidecart
+        {% if settings.sidecart_promo_message != blank %}promo-message="{{ settings.sidecart_promo_message }}"{% endif %}
+        {% if settings.sidecart_empty_image != blank %}
+          empty-image="{{ settings.sidecart_empty_image | img_url: '400x360' }}"
+          empty-image-alt="{{ settings.sidecart_empty_image_alt }}"
+        {% endif %}
+        {% if settings.gwp_threshold_product != blank %}
+          threshold-product-handle="{{ settings.gwp_threshold_product }}"
+          threshold-description="{{ settings.gwp_threshold_description }}"
+          :threshold-value="{{ settings.gwp_threshold_value }} * 100"
+        {% endif %}
+        empty-text="{{ settings.sidecart_empty_message }}">
+      </sidecart>
+    </div>
+
+    {%- include 'template-scripts' -%}
+  </body>
+</html>

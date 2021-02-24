@@ -1,0 +1,36 @@
+.pagination {
+  text-align: center;
+
+  &__item--prev {
+    margin-right: $grid-gutter / 2;
+  }
+
+  &__item--next {
+    margin-left: $grid-gutter / 2;
+  }
+
+  &__item--prev,
+  &__item--next {
+    &:hover .button:not([disabled]) .icon {
+      fill: $color--link;
+    }
+  }
+
+  &__link {
+    display: inline-block;
+    margin-left: $grid-gutter / 2;
+    margin-right: $grid-gutter / 2;
+    width: 28px;
+    line-height: 28px;
+    font-size: rem(14);
+    text-align: center;
+    text-decoration: none;
+    color: $color-lead;
+
+    &:hover,
+    &--active {
+      color: $color--link;
+      text-decoration: none;
+    }
+  }
+}

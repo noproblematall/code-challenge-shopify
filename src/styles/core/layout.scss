@@ -1,0 +1,36 @@
+html {
+  background-color: $bg--main;
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body,
+html {
+  height: 100%;
+}
+
+body {
+  @include mobile-only {
+    padding-top: $mobile-nav-height;
+  }
+}
+
+table {
+  width: 100%;
+}
+
+.layout--minimal {
+  /* stylelint-disable selector-max-id, comment-empty-line-before */
+  #app,
+  #MainContent {
+    height: 100%;
+    width: 100%;
+  }
+
+  /* stylelint-enable selector-max-id */
+}

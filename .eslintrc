@@ -1,0 +1,48 @@
+{
+  "extends": ["airbnb", "plugin:prettier/recommended", "plugin:vue/recommended"],
+  "env": {
+    "browser": true,
+    "jquery": true
+  },
+  "globals": {
+    "__webpack_public_path__": true,
+    "Shopify": true
+  },
+  "overrides": [
+    {
+      "files": ["*.vue"],
+      "rules": {
+        "vue/require-default-prop": "off"
+      }
+    },
+    {
+      //This is to prevent the dependencies of the Gulp workflow tasks (i.e. devDependencies) from being viewed as project level dependencies.
+      "files": ["tasks/*.js", "webpack.*"],
+      "rules": {
+        "import/no-extraneous-dependencies": "off"
+      }
+    },
+    {
+      // Based on our folder structure and how we are doing some imports we had a lot of false positives with this rule. Disabling for now but we might want to look for a better alternative.
+      // Likely non-issue disabling this as if a path was unresolved we wouldnt have working sites anyway, which is obvious given our current process
+      "files": ["*"],
+      "rules": {
+        "import/no-unresolved": "off",
+        "import/extensions": ["warn", "always", { "ignorePackages": true }]
+      }
+    },
+    {
+      // Allow state to be mutated in vuex mutations
+      "files": ["src/scripts/store/**/*"],
+      "rules": {
+        "no-param-reassign": [
+          "error",
+          {
+            "props": true,
+            "ignorePropertyModificationsFor": ["state"]
+          }
+        ]
+      }
+    }
+  ]
+}

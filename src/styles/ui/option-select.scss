@@ -1,0 +1,76 @@
+
+.option-select {
+  border: 0;
+  padding: 0;
+  // adjust for margin
+  margin-right: -10px;
+
+  @include tablet-up {
+    margin-right: -12px;
+  }
+  
+  &__label-wrapper {
+    display: flex;
+  }
+
+  &__legend {
+    margin-bottom: 10px;
+
+    &--title {
+      font-size: rem(14); 
+      font-weight: 500;
+      line-height: 18px;
+      margin-right: 8px;
+    }
+  }
+
+  &__label {
+    cursor: pointer;
+    display: inline-block;
+    padding: 10px 0;
+    min-width: 56px; 
+    border: 2px solid $border--input;
+    font-size: rem(12);
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: center;
+    transition: 0.3s ease-in-out;
+    background-color: $bg--main;
+    flex-basis: calc(33% - 10px);
+    width: calc(33% - 10px);
+    margin-right: 10px;
+    
+    @include tablet-up {
+      margin-right: 12px;
+      padding: 10px;
+      flex-basis: calc(33% - 12px);
+      width: calc(33% - 12px);
+      font-size: rem(14);
+      line-height: 1.28;
+    }
+
+    &.is-selected {
+      border-color: $border--accent;
+      background-color: $bg--main;
+    }
+
+    &__title {
+      margin-bottom: 2px;
+    }
+
+    &__price__savings {
+      margin-left: 4px;
+      color: $color--error;
+      transition: 0.3s ease color;
+
+      .is-selected & {
+        color: $text--main;
+      }
+    }
+
+    &__title,
+    &__price {
+      white-space: nowrap;
+    }
+  }
+}

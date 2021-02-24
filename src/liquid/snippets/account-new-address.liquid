@@ -1,0 +1,117 @@
+<account-new-address ref="address-new">
+  {%- form 'customer_address', customer.new_address -%}
+    <div class="address-form__default input input--checkbox">
+      {{ form.set_as_default_checkbox }}
+      <div class="input--checkbox__indicator"></div>
+      <label for="address_default_address_new">Make Default</label>
+    </div>
+
+    <div class="address-form__row">
+      <div class="input input--text">
+        <input type="text"
+              name="address[first_name]"
+              id="AddressFirstNameNew"
+              value="{{ form.first_name }}"
+              autocapitalize="words">
+        <label for="AddressFirstNameNew">First Name</label>
+      </div>
+      <div class="input input--text">
+        <input type="text"
+              name="address[last_name]"
+              id="AddressLastNameNew"
+              value="{{ form.last_name }}"
+              autocapitalize="words">
+        <label for="AddressLastNameNew">Last Name</label>
+      </div>
+    </div>
+
+    <div class="address-form__row">
+      <div class="input input--text">
+        <input type="text"
+              name="address[company]"
+              id="AddressCompanyNew"
+              value="{{ form.company }}"
+              autocapitalize="words">
+        <label for="AddressCompanyNew">Company</label>
+      </div>
+    </div>
+
+    <div class="address-form__row">
+      <div class="input input--text">
+        <input type="text"
+              name="address[address1]"
+              id="AddressAddress1New"
+              value="{{ form.address1 }}"
+              autocapitalize="words">
+        <label for="AddressAddress1New">Address</label>
+      </div>
+    </div>
+
+    <div class="address-form__row">
+      <div class="input input--text">
+        <input type="text"
+              name="address[address2]"
+              id="AddressAddress2New"
+              value="{{ form.address2 }}"
+              autocapitalize="words">
+        <label for="AddressAddress2New">Apt or Suite</label>
+      </div>
+      <div class="input input--text">
+        <input type="tel"
+              name="address[phone]"
+              id="AddressPhoneNew"
+              value="{{ form.phone }}"
+              pattern="[0-9\-]*">
+        <label for="AddressPhoneNew">Phone</label>
+      </div>
+    </div>
+
+    <div class="address-form__row">
+      <div class="input input--text">
+        <input type="text"
+              name="address[city]"
+              id="AddressCityNew"
+              value="{{ form.city }}"
+              autocapitalize="words">
+        <label for="AddressCityNew">City</label>
+      </div>
+      <div id="AddressProvinceWrapperNew">
+        <div class="input input--select">
+          <select data-address-province
+            name="address[province]"
+            id="AddressProvinceNew"
+            data-default="{{ form.province }}">
+          </select>
+          <icon name="chevron-down" size="16px"></icon>
+          <label for="AddressProvinceNew">Province</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="address-form__row">
+      <div class="input input--text">
+        <input type="text"
+              name="address[zip]"
+              id="AddressZipNew"
+              value="{{ form.zip }}"
+              autocapitalize="characters">
+        <label for="AddressZipNew">Zip Code</label>
+      </div>
+      <div class="input input--select">
+        <select data-address-country
+          name="address[country]"
+          id="AddressCountryNew"
+          data-default="{{ form.country }}">
+          {{ country_option_tags }}
+        </select>
+        <icon name="chevron-down" size="16px"></icon>
+        <label for="AddressCountryNew">Country</label>
+      </div>
+    </div>
+
+    <div class="address-form__buttons">
+      <primary-button outline secondary label="Cancel" @click.native="$refs['address-new'].hide"></primary-button>
+      <submit-button label="Save Address"></submit-button>
+    </div>
+  {%- endform -%}
+</account-new-address>

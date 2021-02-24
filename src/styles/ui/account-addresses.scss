@@ -1,0 +1,142 @@
+$address-form-margin: 18px;
+$address-saved-spacing: 24px;
+
+// container for each saved address along with its form
+.address-saved {
+  margin-top: $address-saved-spacing;
+  margin-bottom: $address-saved-spacing;
+}
+
+// container for new address button & form
+.address-add {
+  margin-top: 36px;
+
+  @include desktop-up {
+    margin-top: 56px;
+  }
+}
+
+.address-add__button {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border: 1px solid $border--light;
+  text-align: center;
+  font-size: rem(18);
+  line-height: 1;
+  font-weight: 700;
+  width: 100%;
+  color: $text--main;
+  background-color: transparent;
+  cursor: pointer;
+
+  @include desktop-up {
+    border-radius: 6px;
+    font-size: rem(23);
+    padding-top: 28px;
+    padding-bottom: 28px;
+  }
+}
+
+// wraps address summary paragraph
+.address-info {
+  position: relative;
+
+  @include desktop-up {
+    margin-left: $address-form-margin;
+    margin-right: $address-form-margin;
+  }
+}
+
+.address-info__edit,
+.address-info__delete {
+  position: absolute;
+  top: 0;
+  right: 0;
+  line-height: 0.8;
+  z-index: 1;
+}
+
+.address-info__summary {
+  font-size: rem(14);
+  margin: 0;
+
+}
+
+.address-info__summary-name {
+  display: block;
+  margin-bottom: 9px;
+}
+
+// wraps edit/add forms
+.address-form {
+  position: relative;
+
+  @include desktop-up {
+    margin-left: $address-form-margin;
+    margin-right: $address-form-margin;
+  }
+}
+
+.address-form__row {
+  display: flex;
+  flex-direction: column;
+
+  @include desktop-up {
+    flex-direction: row;
+  }
+
+  // make sure each element in the form row is evenly spaced
+  > * {
+    flex: 1;
+
+    @include desktop-up {
+      &:not(:first-child) {
+        margin-left: 14px;
+      }
+
+      &:not(:last-child) {
+        margin-right: 14px;
+      }
+    }
+  }
+}
+
+.address-form__default {
+  margin-bottom: 0;
+
+  @include desktop-up {
+    margin-bottom: $grid-gutter * 0.75;
+  }
+}
+
+.address-form__buttons {
+  display: flex;
+  margin-top: $grid-gutter * 2;
+  flex-direction: column;
+  margin-top: $grid-gutter * 1.5;
+
+  @include desktop-up {
+    max-width: 450px;
+    flex-direction: row;
+    margin-top: $grid-gutter * 2;
+  }
+
+  > .button {
+    flex: 1;
+    
+    &:not(:first-child) {
+      @include desktop-up {
+        margin-left: 8px;
+      }
+    }
+
+    &:not(:last-child) {
+      margin-bottom: 18px;
+
+      @include desktop-up {
+        margin-right: 8px;
+        margin-bottom: 0;
+      }
+    }
+  }
+}

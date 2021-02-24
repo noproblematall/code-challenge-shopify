@@ -1,0 +1,141 @@
+.article {
+  margin-top: -72px;
+  position: relative; // z-index fix
+  padding: 0 $grid-gutter;
+
+  &__hero {
+    padding: 0;
+    margin: 0 auto;
+    height: 300px;
+
+    @include tablet-up {
+      height: 490px;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .product-tile-badge {
+    position: absolute;
+    top: -30px;
+    right: 10px;
+  }
+
+  &__title {
+    padding: 40px 0;
+    margin: 0;
+    font-size: rem(30);
+
+    @include tablet-up {
+      font-size: rem(55);
+    }
+  }
+
+  &__content {
+    line-height: 1.76;
+
+    li {
+      margin-bottom: $content-gutter;
+    }
+  }
+
+  &__social-sharing {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: $grid-gutter 0;
+
+    @include mobile-only {
+      padding-bottom: $grid-gutter * 2;
+    }
+
+    label {
+      font-size: rem(23);
+    }
+
+    a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 45px;
+      height: 45px;
+    }
+  }
+
+  &__tags {
+    text-align: center;
+    margin-bottom: $grid-gutter * 2;
+
+    a {
+      text-decoration: none;
+      color: $text--mid;
+    }
+  }
+
+  &__paginate {
+    display: flex;
+    justify-content: center;
+  }
+  
+  &__paginate a {
+    width: 45px;
+    height: 46px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $color--accent;
+    margin: 0 3px;
+
+    .icon {
+      fill: $color-white;
+    }
+
+    &:hover {
+      background-color: $color--accent;
+
+      .icon {
+        fill: $color-white;
+      }
+    }
+  }
+
+  &__comments-section {
+    padding: $grid-gutter 0;
+  }
+
+  &__form-success {
+    padding: $grid-gutter;
+  }
+
+  &__comment {
+    list-style: none;
+    padding-bottom: $grid-gutter;
+    border-bottom: 1px solid $border--main;
+
+    &__content {
+      line-height: 30px;
+    }
+
+    &__date {
+      position: relative;
+      padding-left: 17px;
+      margin-left: 11px;
+
+      &::before {
+        content: '';
+        width: 6px;
+        height: 6px;
+        background: $border--main;
+        display: block;
+        position: absolute;
+        top: 44%;
+        left: 0;
+        border-radius: 50%;
+      }
+    }
+  }
+}
