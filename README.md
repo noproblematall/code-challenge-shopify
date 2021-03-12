@@ -46,6 +46,3 @@ A list of these tasks can be found in `package.json`. Watchers will automaticall
 `yarn deploy`
 ⋅⋅⋅Run the build tool and deploy all files to the theme in `.env`
 
-## When the task is completed:
-
-Please give access to your shopify store to "development+coding-challenge@bvacommerce.com".
